@@ -1,0 +1,32 @@
+function x = jacobi(A, b, x0, eps)
+    n = size(A, 1);
+    cont = 0;
+    x = x0;
+    xk = x;
+    
+    for i=1:n
+        suma = 0; 
+        for j = 1:n
+            if (j <> i)
+                suma = suma + A(i,j) * xk(j);
+            end
+        end
+        x(i) = 1/A(i,i) * (b(i) - suma);
+    end
+    cont = cont + 1;
+    
+    while (norm(x - xk) > eps)
+        xk = x;
+        for i=1:n
+            suma = 0; 
+            for j = 1:n
+                if (j <> i)
+                    suma = suma + A(i,j) * xk(j);
+                end
+            end
+            x(i) = 1/A(i,i) * (b(i) - suma);
+        end
+        cont = cont + 1;
+    end
+    disp(cont);
+endfunction

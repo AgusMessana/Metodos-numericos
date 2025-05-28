@@ -1,0 +1,157 @@
+function raiz = biseccion(fun, a, b, tol)
+    fa = fun(a);
+    fb = fun(b);
+    if fa*fb > 0 then
+        error("Las imágenes de los puntos no tienen signos opuestos.");
+    end
+    c = (a + b) / 2;
+    fc = fun(c);
+    i = 0
+    delta = b - c;
+    while abs(delta) > tol 
+        if fa*fc < 0 then 
+            b = c;
+            fb = fc;
+        else 
+            a = c;
+            fa = fc;
+        end
+        c = (a + b) / 2;
+        fc = fun(c)
+        delta = b - c;
+        i = i + 1;
+    end
+    disp("Número de iteraciones: " + string(i));
+    raiz = c;
+endfunction
+
+---------------------------------------------------------------------------------------------------
+
+function salida = newton(fun, a, tol, iter, h)
+    i = 0;
+    fa = fun(a)
+    dfa = (fun(a + h) - fa) / h;
+    b = a - fa / dfa
+    delta = abs(b - a)
+    while delta > tol && i < iter
+        i = i + 1;
+        a = b;
+        fa = fun(a)
+        dfa = (fun(a + h) - fa) / h;
+        b = a - fa / dfa
+        delta = abs(b - a)
+    end
+    if delta > tol then 
+        disp("Se alcanzo el maximo de iteraciones. La raíz no será precisa.");
+    end
+    disp("Número de iteraciones: " + string(i));
+    salida = b;
+endfunction
+
+----------------------------------------------------------------------------------------------------
+
+function raiz = punto_fijo(fun, a, tol, iter)
+    b = a;
+    i = 0;
+    while abs(fun(b) - b) > tol && i < iter
+        c = fun(b);
+        b = c;
+        i = i + 1;
+    end
+    if i >= iter then
+        disp("Se alcanzo el maximo de iteraciones. El punto fijo no será preciso");
+    end
+     disp ("Número de iteraciones: " + string(i));
+     raiz = b;
+endfunction
+
+---------------------------------------------------------------------------------------------------------
+
+function raiz = regula_falsi(fun, a, b, tol, iter)
+     fa = fun(a);
+     fb = fun(b);
+     c = b - fb * (b - a) / (fb-fa);
+     fc = fun(c);
+     i = 0;
+     while abs(fc) > tol && i < iter then
+         i = i + 1;
+         if fa*fc < 0 then 
+             b = c;
+             fb = fc;
+         else 
+             a = c;
+             fa = fc;
+         end
+     c = b - fb * (b - a) / (fb-fa);
+     fc = fun(c);
+     end
+     if (i >= iter) then 
+        disp("Se alcanzo el maximo de iteraciones. La raíz no será precisa.");
+     end
+     disp ("Número de iteraciones: " + string(i));
+     raiz = c;
+endfunction
+
+-----------------------------------------------------------------------------------------------------------
+
+function raiz = secante(fun, a, b, tol, iter)
+    fa = fun(a);
+    fb = fun(b);
+    c = b - fb * (b - a) / (fb-fa);
+    fc = fun(c);
+    i = 0;
+    while abs(fc)>tol && i < iter
+        i = i + 1;
+        a = b;
+        fa = fb;
+        b = c;
+        fb = fc;
+        c = b - fb * (b - a) / (fb-fa);
+        fc = fun(c);
+    end
+    if (i >= iter) then 
+        disp("Se alcanzo el maximo de iteraciones. La raíz no será precisa.");
+    end
+    disp("Número de iteraciones: " + string(i));
+    raiz = c;
+endfunction
+
+-------------------------------------------------------------------------------------------------------------
+
+function jac = jacobiana(fn, val, h) //fn(función), xy(vector de valores iniciales), h(valor para derivadas)
+    n = length(val);
+    jac = zeros(n, n);
+    i = 1;
+    while i <= n
+        valh = val;
+        valh(i) = valh(i) + h;
+        jac(:, i) = (fn(valh) - fn(val)) / h;
+        i = i + 1;
+    end
+endfunction
+
+function raiz = newton_multi(fn, val, n, h)
+    valn = val;
+    i = 1;
+    while i <= n
+        jac = jacobiana(fn, valn, h);
+        jac_inv = inv(jac);
+        y = valn - jac_inv * fn(valn);
+        valn = y;
+        i = i + 1;
+    end
+    raiz = valn;
+endfunction
+
+
+/*Function f = Sistema(v)
+  > x = v(1)
+  > y = v(2)
+  > f = [x^2 + x*y^3 - 9; 3*x^2*y - 4 - y^3];
+> Endfunction
+
+h=1e-6;
+n = 5 (iteraciones)
+> xy0=[1.2;2.5] (valores iniciales) )*/
+
+---------------------------------------------------------------------------------------------------------------
