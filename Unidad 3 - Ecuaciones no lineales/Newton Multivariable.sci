@@ -15,9 +15,8 @@ function raiz = newton_multi(fn, val, n, h)
     i = 1;
     while i <= n
         jac = jacobiana(fn, valn, h);
-        jac_inv = inv(jac);
-        y = valn - jac_inv * fn(valn);
-        valn = y;
+        delta = jac \ fn(valn);
+        valn = valn - delta; 
         i = i + 1;
     end
     raiz = valn;

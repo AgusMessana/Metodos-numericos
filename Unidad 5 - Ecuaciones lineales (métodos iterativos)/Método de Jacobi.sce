@@ -7,7 +7,7 @@ function x = jacobi(A, b, x0, eps)
     for i=1:n
         suma = 0; 
         for j = 1:n
-            if (j <> i)
+            if (j ~= i)
                 suma = suma + A(i,j) * xk(j);
             end
         end
@@ -20,7 +20,7 @@ function x = jacobi(A, b, x0, eps)
         for i=1:n
             suma = 0; 
             for j = 1:n
-                if (j <> i)
+                if (j ~= i)
                     suma = suma + A(i,j) * xk(j);
                 end
             end
