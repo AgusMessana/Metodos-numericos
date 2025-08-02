@@ -52,3 +52,22 @@ for i = n-1:-1:1
     x(i) = (a(i,n+1)-sumk)/a(i,i);
 end
 endfunction
+
+/*
+xx = linspace(min(x), max(x), 300);  // puntos suaves para graficar
+yy1 = horner(p1, xx);
+yy2 = horner(p2, xx);
+yy3 = horner(p3, xx);
+
+clf();
+plot(x, y, 'ko')  // puntos originales en negro
+
+plot(xx, yy1, 'r-', 'thickness', 2)  // grado 1 en rojo
+plot(xx, yy2, 'g--', 'thickness', 2) // grado 2 en verde punteado
+plot(xx, yy3, 'b-.', 'thickness', 2) // grado 3 en azul rayado
+
+legend("Datos", "Ajuste grado 1", "Ajuste grado 2", "Ajuste grado 3")
+xlabel("x")
+ylabel("y")
+title("Ajustes por mínimos cuadrados (grado 1, 2 y 3)")
+*/
